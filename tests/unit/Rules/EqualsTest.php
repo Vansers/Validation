@@ -16,7 +16,6 @@ use stdClass;
 /**
  * @group  rule
  * @covers Respect\Validation\Rules\Equals
- * @covers Respect\Validation\Exceptions\EqualsException
  */
 class EqualsTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,8 +25,9 @@ class EqualsTest extends \PHPUnit_Framework_TestCase
     public function testInputEqualsToExpectedValueShouldPass($compareTo, $input)
     {
         $rule = new Equals($compareTo);
+        $result = $rule->validate($input);
 
-        $this->assertTrue($rule->validate($input));
+        $this->assertTrue($result->isValid());
     }
 
     /**
@@ -36,18 +36,9 @@ class EqualsTest extends \PHPUnit_Framework_TestCase
     public function testInputNotEqualsToExpectedValueShouldPass($compareTo, $input)
     {
         $rule = new Equals($compareTo);
+        $result = $rule->validate($input);
 
-        $this->assertFalse($rule->validate($input));
-    }
-
-    /**
-     * @expectedException Respect\Validation\Exceptions\EqualsException
-     * @expectedExceptionMessage "24" must be equals 42
-     */
-    public function testShouldThrowTheProperExceptionWhenFailure()
-    {
-        $rule = new Equals(42);
-        $rule->check('24');
+        $this->assertFalse($result->isValid());
     }
 
     public function providerForEquals()
