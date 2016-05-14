@@ -58,4 +58,14 @@ interface ResultInterface
      * @return array
      */
     public function getProperties();
+
+    /**
+     * Creates a new result, changing its validation status and properties.
+     *
+     * @param bool  $isValid
+     * @param array $properties
+     *
+     * @return ResultInterface
+     */
+    public function with($isValid, array $properties = []);
 }

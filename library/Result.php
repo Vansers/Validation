@@ -117,4 +117,18 @@ final class Result implements ResultInterface
     {
         return $this->properties;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function with($isValid, array $properties = [])
+    {
+        return new self(
+            $isValid,
+            $this->getInput(),
+            $this->getRule(),
+            $properties + $this->getProperties(),
+            $this->getChildren()
+        );
+    }
 }
