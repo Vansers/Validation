@@ -11,7 +11,7 @@
 
 namespace Respect\Validation\Rules;
 
-use Respect\Validation\Result;
+use Respect\Validation\ResultInterface;
 
 /**
  * Default interface for rules.
@@ -25,7 +25,7 @@ interface RuleInterface
      *
      * @param mixed $input
      *
-     * @return Result
+     * @return ResultInterface
      */
     public function validate($input);
 }

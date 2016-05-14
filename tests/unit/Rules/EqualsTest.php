@@ -19,6 +19,32 @@ use stdClass;
  */
 class EqualsTest extends \PHPUnit_Framework_TestCase
 {
+    public function testShouldReturnInputOnResult()
+    {
+        $input = 'chimichanga';
+        $rule = new Equals('foo');
+        $result = $rule->validate($input);
+
+        $this->assertSame($input, $result->getInput());
+    }
+
+    public function testShouldReturnRuleOnTheResult()
+    {
+        $rule = new Equals('foo');
+        $result = $rule->validate('bar');
+
+        $this->assertSame($rule, $result->getRule());
+    }
+
+    public function testShouldReturnComparedValueOnResult()
+    {
+        $compareTo = 'chimichanga';
+        $rule = new Equals($compareTo);
+        $result = $rule->validate('deadpool');
+
+        $this->assertSame(['compareTo' => $compareTo], $result->getProperties());
+    }
+
     /**
      * @dataProvider providerForEquals
      */

@@ -11,12 +11,15 @@
 
 namespace Respect\Validation;
 
+use Respect\Validation\Exceptions\ComponentException;
+use Respect\Validation\Rules\RuleInterface;
+
 /**
  * Class to handle validation.
  *
  * @author Henrique Moody <henriquemoody@gmail.com>
  */
-final class Result
+final class Result implements ResultInterface
 {
     /**
      * @var bool
@@ -24,18 +27,94 @@ final class Result
     private $isValid;
 
     /**
-     * @param bool $isValid
+     * @var mixed
      */
-    public function __construct($isValid)
+    private $input;
+
+    /**
+     * @var RuleInterface
+     */
+    private $rule;
+
+    /**
+     * @var RuleInterface[]
+     */
+    private $children;
+
+    /**
+     * @var array
+     */
+    private $properties;
+
+    /**
+     * @param bool            $isValid
+     * @param mixed           $input
+     * @param RuleInterface   $rule
+     * @param array           $properties
+     * @param RuleInterface[] $children
+     */
+    public function __construct($isValid, $input, RuleInterface $rule, array $properties = [], array $children = [])
     {
+        $this->checkChildrenInstance($children);
+
         $this->isValid = $isValid;
+        $this->input = $input;
+        $this->rule = $rule;
+        $this->properties = $properties;
+        $this->children = $children;
     }
 
     /**
-     * @return bool
+     * @param ResultInterface[] $children
+     */
+    private function checkChildrenInstance(array $children)
+    {
+        foreach ($children as $child) {
+            if ($child instanceof ResultInterface) {
+                continue;
+            }
+
+            throw new ComponentException('Every child of Result must implement ResultInterface');
+        }
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function isValid()
     {
         return $this->isValid;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRule()
+    {
+        return $this->rule;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getProperties()
+    {
+        return $this->properties;
     }
 }

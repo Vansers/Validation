@@ -38,6 +38,6 @@ final class Equals implements RuleInterface
      */
     public function validate($input)
     {
-        return new Result(($input == $this->compareTo));
+        return new Result(($input == $this->compareTo), $input, $this, ['compareTo' => $this->compareTo]);
     }
 }
