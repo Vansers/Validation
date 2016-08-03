@@ -11,26 +11,28 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Rule;
+
 /**
  * Abstract class to handle nested rules.
  */
-abstract class AbstractComposite2 implements RuleInterface
+abstract class AbstractComposite2 implements Rule
 {
     /**
-     * @var RuleInterface[]
+     * @var Rule[]
      */
     private $rules = [];
 
     /**
-     * @param RuleInterface ...$rules
+     * @param Rule ...$rules
      */
-    public function __construct(RuleInterface ...$rules)
+    public function __construct(Rule ...$rules)
     {
         $this->addRules($rules);
     }
 
     /**
-     * @return RuleInterface[]
+     * @return Rule[]
      */
     public function getRules()
     {
@@ -38,15 +40,15 @@ abstract class AbstractComposite2 implements RuleInterface
     }
 
     /**
-     * @param RuleInterface $rule
+     * @param Rule $rule
      */
-    public function addRule(RuleInterface $rule)
+    public function addRule(Rule $rule)
     {
         $this->rules[] = $rule;
     }
 
     /**
-     * @param RuleInterface[] $rules
+     * @param Rule[] $rules
      */
     public function addRules(array $rules)
     {

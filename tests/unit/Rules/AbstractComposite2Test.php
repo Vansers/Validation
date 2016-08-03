@@ -11,6 +11,8 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Rule;
+
 /**
  * @covers Respect\Validation\Rules\AbstractComposite2
  */
@@ -28,7 +30,7 @@ final class AbstractComposite2Test extends \PHPUnit_Framework_TestCase
     {
         $ruleMocks = [];
         for ($index = 0; $index < $quantity; ++$index) {
-            $ruleMocks[] = $this->createMock(RuleInterface::class);
+            $ruleMocks[] = $this->createMock(Rule::class);
         }
 
         return $ruleMocks;
@@ -43,7 +45,7 @@ final class AbstractComposite2Test extends \PHPUnit_Framework_TestCase
 
     public function testShouldBeAbleToAddARule()
     {
-        $ruleMock = $this->createMock(RuleInterface::class);
+        $ruleMock = $this->createMock(Rule::class);
 
         $abstractNestedMock = $this->getAbstractComposite2MockWithoutConstructor();
         $abstractNestedMock->addRule($ruleMock);

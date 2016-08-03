@@ -9,16 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Respect\Validation\Rules;
-
-use Respect\Validation\ResultInterface;
+namespace Respect\Validation;
 
 /**
  * Default interface for rules.
  *
  * @author Henrique Moody <henriquemoody@gmail.com>
  */
-interface RuleInterface
+interface Rule
 {
     /**
      * Validates the rule against the given input.

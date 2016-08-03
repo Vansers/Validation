@@ -112,7 +112,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      * @expectedException Respect\Validation\Exceptions\ComponentException
      * @expectedExceptionMessage "Respect\Validation\Exceptions\AgeException" is not a valid respect rule
      */
-    public function testShouldThrowsAnExceptionWhenRuleIsNotInstanceOfRuleInterface()
+    public function testShouldThrowsAnExceptionWhenRuleIsNotInstanceOfRule()
     {
         $factory = new Factory();
         $factory->appendRulePrefix('Respect\\Validation\\Exceptions\\');

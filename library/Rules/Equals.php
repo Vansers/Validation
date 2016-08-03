@@ -12,13 +12,14 @@
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Result;
+use Respect\Validation\Rule;
 
 /**
  * Validates if the input is equal to some value.
  *
  * @author Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
  */
-final class Equals implements RuleInterface
+final class Equals implements Rule
 {
     /**
      * @var mixed

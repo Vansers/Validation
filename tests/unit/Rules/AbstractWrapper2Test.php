@@ -11,11 +11,13 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Rule;
+
 final class AbstractWrapper2Test extends \PHPUnit_Framework_TestCase
 {
     public function testShouldAcceptRuleOnConstructor()
     {
-        $ruleMock = $this->createMock(RuleInterface::class);
+        $ruleMock = $this->createMock(Rule::class);
 
         $abstractWrapper = $this
             ->getMockBuilder(AbstractWrapper2::class)

@@ -11,8 +11,6 @@
 
 namespace Respect\Validation;
 
-use Respect\Validation\Rules\RuleInterface;
-
 /**
  * Interface for results.
  *
@@ -37,7 +35,7 @@ interface ResultInterface
     /**
      * Returns the rule that was used on the validation.
      *
-     * @return RuleInterface
+     * @return Rule
      */
     public function getRule();
 
@@ -46,7 +44,7 @@ interface ResultInterface
      *
      * Most results don't have children, then they will just return an empty array.
      *
-     * @return RuleInterface[]
+     * @return Rule[]
      */
     public function getChildren();
 

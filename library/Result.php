@@ -12,7 +12,6 @@
 namespace Respect\Validation;
 
 use Respect\Validation\Exceptions\ComponentException;
-use Respect\Validation\Rules\RuleInterface;
 
 /**
  * Class to handle validation.
@@ -32,12 +31,12 @@ final class Result implements ResultInterface
     private $input;
 
     /**
-     * @var RuleInterface
+     * @var Rule
      */
     private $rule;
 
     /**
-     * @var RuleInterface[]
+     * @var Rule[]
      */
     private $children;
 
@@ -47,13 +46,13 @@ final class Result implements ResultInterface
     private $properties;
 
     /**
-     * @param bool            $isValid
-     * @param mixed           $input
-     * @param RuleInterface   $rule
-     * @param array           $properties
-     * @param RuleInterface[] $children
+     * @param bool   $isValid
+     * @param mixed  $input
+     * @param Rule   $rule
+     * @param array  $properties
+     * @param Rule[] $children
      */
-    public function __construct($isValid, $input, RuleInterface $rule, array $properties = [], array $children = [])
+    public function __construct($isValid, $input, Rule $rule, array $properties = [], array $children = [])
     {
         $this->checkChildrenInstance($children);
 

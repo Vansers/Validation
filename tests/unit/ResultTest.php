@@ -11,8 +11,6 @@
 
 namespace Respect\Validation;
 
-use Respect\Validation\Rules\RuleInterface;
-
 /**
  * @covers Respect\Validation\Result
  */
@@ -20,7 +18,7 @@ final class ResultTest extends \PHPUnit_Framework_TestCase
 {
     private function getRuleMock()
     {
-        return $this->createMock(RuleInterface::class);
+        return $this->createMock(Rule::class);
     }
 
     private function getResultMocksByQuantity($quantity)

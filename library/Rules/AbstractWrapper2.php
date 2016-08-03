@@ -11,17 +11,19 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Rule;
+
 abstract class AbstractWrapper2 extends AbstractRule
 {
     /**
-     * @var RuleInterface
+     * @var Rule
      */
     private $rule;
 
     /**
-     * @param RuleInterface $rule
+     * @param Rule $rule
      */
-    public function __construct(RuleInterface $rule)
+    public function __construct(Rule $rule)
     {
         $this->rule = $rule;
     }
@@ -29,7 +31,7 @@ abstract class AbstractWrapper2 extends AbstractRule
     /**
      * Returns the wrappered rule.
      *
-     * @return RuleInterface
+     * @return Rule
      */
     public function getRule()
     {
