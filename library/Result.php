@@ -11,123 +11,59 @@
 
 namespace Respect\Validation;
 
-use Respect\Validation\Exceptions\ComponentException;
-
 /**
- * Class to handle validation.
+ * Interface for results.
  *
  * @author Henrique Moody <henriquemoody@gmail.com>
  */
-final class Result implements ResultInterface
+interface Result
 {
     /**
-     * @var bool
+     * Returns whether the result is valid or not.
+     *
+     * @return bool
      */
-    private $isValid;
+    public function isValid();
 
     /**
-     * @var mixed
+     * Returns the input that was used on the validation.
+     *
+     * @return mixed
      */
-    private $input;
+    public function getInput();
 
     /**
-     * @var Rule
+     * Returns the rule that was used on the validation.
+     *
+     * @return Rule
      */
-    private $rule;
+    public function getRule();
 
     /**
-     * @var Rule[]
+     * Returns the children of the result.
+     *
+     * Most results don't have children, then they will just return an empty array.
+     *
+     * @return Rule[]
      */
-    private $children;
+    public function getChildren();
 
     /**
-     * @var array
+     * Returns some properties to give more information about the validation that was made.
+     *
+     * Results may or may not have properties.
+     *
+     * @return array
      */
-    private $properties;
+    public function getProperties();
 
     /**
-     * @param bool   $isValid
-     * @param mixed  $input
-     * @param Rule   $rule
-     * @param array  $properties
-     * @param Rule[] $children
+     * Creates a new result, changing its validation status and properties.
+     *
+     * @param bool  $isValid
+     * @param array $properties
+     *
+     * @return Result
      */
-    public function __construct($isValid, $input, Rule $rule, array $properties = [], array $children = [])
-    {
-        $this->checkChildrenInstance($children);
-
-        $this->isValid = $isValid;
-        $this->input = $input;
-        $this->rule = $rule;
-        $this->properties = $properties;
-        $this->children = $children;
-    }
-
-    /**
-     * @param ResultInterface[] $children
-     */
-    private function checkChildrenInstance(array $children)
-    {
-        foreach ($children as $child) {
-            if ($child instanceof ResultInterface) {
-                continue;
-            }
-
-            throw new ComponentException('Every child of Result must implement ResultInterface');
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isValid()
-    {
-        return $this->isValid;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getInput()
-    {
-        return $this->input;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getRule()
-    {
-        return $this->rule;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function with($isValid, array $properties = [])
-    {
-        return new self(
-            $isValid,
-            $this->getInput(),
-            $this->getRule(),
-            $properties + $this->getProperties(),
-            $this->getChildren()
-        );
-    }
+    public function with($isValid, array $properties = []);
 }

@@ -11,8 +11,8 @@
 
 namespace Respect\Validation\Rules;
 
-use Respect\Validation\Result;
 use Respect\Validation\Rule;
+use Respect\Validation\StandardResult;
 
 /**
  * Validates if the input is equal to some value.
@@ -39,6 +39,6 @@ final class Equals implements Rule
      */
     public function validate($input)
     {
-        return new Result(($input == $this->compareTo), $input, $this, ['compareTo' => $this->compareTo]);
+        return new StandardResult(($input == $this->compareTo), $input, $this, ['compareTo' => $this->compareTo]);
     }
 }

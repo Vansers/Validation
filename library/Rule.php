@@ -23,7 +23,7 @@ interface Rule
      *
      * @param mixed $input
      *
-     * @return ResultInterface
+     * @return Result
      */
     public function validate($input);
 }
