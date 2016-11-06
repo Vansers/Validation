@@ -17,23 +17,30 @@ use stdClass;
  * @group  rule
  * @covers Respect\Validation\Rules\Equals
  */
-class EqualsTest extends \PHPUnit_Framework_TestCase
+final class EqualsTest extends RuleTestCase2
 {
-    public function testShouldReturnInputOnResult()
+    /**
+     * {@inheritdoc}
+     */
+    public function providerForValidInput()
     {
-        $input = 'chimichanga';
-        $rule = new Equals('foo');
-        $result = $rule->validate($input);
-
-        $this->assertSame($input, $result->getInput());
+        return [
+            [new Equals('foo'), 'foo'],
+            [new Equals([]), []],
+            [new Equals(new stdClass()), new stdClass()],
+            [new Equals(10), '10'],
+        ];
     }
 
-    public function testShouldReturnRuleOnTheResult()
+    /**
+     * {@inheritdoc}
+     */
+    public function providerForInvalidInput()
     {
-        $rule = new Equals('foo');
-        $result = $rule->validate('bar');
-
-        $this->assertSame($rule, $result->getRule());
+        return [
+            [new Equals('foo'), ''],
+            [new Equals('foo'), 'bar'],
+        ];
     }
 
     public function testShouldReturnComparedValueOnResult()
@@ -43,45 +50,5 @@ class EqualsTest extends \PHPUnit_Framework_TestCase
         $result = $rule->validate('deadpool');
 
         $this->assertSame(['compareTo' => $compareTo], $result->getProperties());
-    }
-
-    /**
-     * @dataProvider providerForEquals
-     */
-    public function testInputEqualsToExpectedValueShouldPass($compareTo, $input)
-    {
-        $rule = new Equals($compareTo);
-        $result = $rule->validate($input);
-
-        $this->assertTrue($result->isValid());
-    }
-
-    /**
-     * @dataProvider providerForNotEquals
-     */
-    public function testInputNotEqualsToExpectedValueShouldPass($compareTo, $input)
-    {
-        $rule = new Equals($compareTo);
-        $result = $rule->validate($input);
-
-        $this->assertFalse($result->isValid());
-    }
-
-    public function providerForEquals()
-    {
-        return [
-            ['foo', 'foo'],
-            [[], []],
-            [new stdClass(), new stdClass()],
-            [10, '10'],
-        ];
-    }
-
-    public function providerForNotEquals()
-    {
-        return [
-            ['foo', ''],
-            ['foo', 'bar'],
-        ];
     }
 }
