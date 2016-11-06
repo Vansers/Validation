@@ -11,16 +11,19 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Rule;
+use Respect\Validation\StandardResult;
+
 /**
  * @author Henrique Moody <henriquemoody@gmail.com>
  */
-class ScalarVal extends AbstractRule
+final class ScalarVal implements Rule
 {
     /**
      * {@inheritdoc}
      */
     public function validate($input)
     {
-        return is_scalar($input);
+        return new StandardResult(is_scalar($input), $input, $this);
     }
 }
