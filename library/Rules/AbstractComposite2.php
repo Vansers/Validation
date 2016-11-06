@@ -34,7 +34,7 @@ abstract class AbstractComposite2 implements Rule
     /**
      * @return Rule[]
      */
-    public function getRules()
+    public function getRules(): array
     {
         return $this->rules;
     }
@@ -55,7 +55,5 @@ abstract class AbstractComposite2 implements Rule
         foreach ($rules as $rule) {
             $this->addRule($rule);
         }
-
-        return $this;
     }
 }

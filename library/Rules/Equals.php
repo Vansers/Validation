@@ -11,6 +11,7 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Result;
 use Respect\Validation\Rule;
 use Respect\Validation\StandardResult;
 
@@ -37,7 +38,7 @@ final class Equals implements Rule
     /**
      * {@inheritdoc}
      */
-    public function validate($input)
+    public function validate($input): Result
     {
         return new StandardResult(($input == $this->compareTo), $input, $this, ['compareTo' => $this->compareTo]);
     }

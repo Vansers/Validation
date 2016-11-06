@@ -11,6 +11,7 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Result;
 use Respect\Validation\Rule;
 use Respect\Validation\StandardResult;
 
@@ -22,7 +23,7 @@ final class ScalarVal implements Rule
     /**
      * {@inheritdoc}
      */
-    public function validate($input)
+    public function validate($input): Result
     {
         return new StandardResult(is_scalar($input), $input, $this);
     }

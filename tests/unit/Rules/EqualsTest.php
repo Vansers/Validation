@@ -22,7 +22,7 @@ final class EqualsTest extends RuleTestCase2
     /**
      * {@inheritdoc}
      */
-    public function providerForValidInput()
+    public function providerForValidInput(): array
     {
         return [
             [new Equals('foo'), 'foo'],
@@ -35,7 +35,7 @@ final class EqualsTest extends RuleTestCase2
     /**
      * {@inheritdoc}
      */
-    public function providerForInvalidInput()
+    public function providerForInvalidInput(): array
     {
         return [
             [new Equals('foo'), ''],

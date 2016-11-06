@@ -62,7 +62,7 @@ final class StandardResult implements Result
     /**
      * {@inheritdoc}
      */
-    public function isValid()
+    public function isValid(): bool
     {
         return $this->isValid;
     }
@@ -78,7 +78,7 @@ final class StandardResult implements Result
     /**
      * {@inheritdoc}
      */
-    public function getRule()
+    public function getRule(): Rule
     {
         return $this->rule;
     }
@@ -86,7 +86,7 @@ final class StandardResult implements Result
     /**
      * {@inheritdoc}
      */
-    public function getChildren()
+    public function getChildren(): array
     {
         return $this->children;
     }
@@ -94,7 +94,7 @@ final class StandardResult implements Result
     /**
      * {@inheritdoc}
      */
-    public function getProperties()
+    public function getProperties(): array
     {
         return $this->properties;
     }
@@ -102,7 +102,7 @@ final class StandardResult implements Result
     /**
      * {@inheritdoc}
      */
-    public function with($isValid, array $properties = [])
+    public function with($isValid, array $properties = []): Result
     {
         return new self(
             $isValid,

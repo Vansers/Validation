@@ -23,7 +23,7 @@ interface Result
      *
      * @return bool
      */
-    public function isValid();
+    public function isValid(): bool;
 
     /**
      * Returns the input that was used on the validation.
@@ -37,7 +37,7 @@ interface Result
      *
      * @return Rule
      */
-    public function getRule();
+    public function getRule(): Rule;
 
     /**
      * Returns the children of the result.
@@ -46,7 +46,7 @@ interface Result
      *
      * @return Rule[]
      */
-    public function getChildren();
+    public function getChildren(): array;
 
     /**
      * Returns some properties to give more information about the validation that was made.
@@ -55,7 +55,7 @@ interface Result
      *
      * @return array
      */
-    public function getProperties();
+    public function getProperties(): array;
 
     /**
      * Creates a new result, changing its validation status and properties.
@@ -65,5 +65,5 @@ interface Result
      *
      * @return Result
      */
-    public function with($isValid, array $properties = []);
+    public function with($isValid, array $properties = []): Result;
 }

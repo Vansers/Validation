@@ -25,5 +25,5 @@ interface Rule
      *
      * @return Result
      */
-    public function validate($input);
+    public function validate($input): Result;
 }

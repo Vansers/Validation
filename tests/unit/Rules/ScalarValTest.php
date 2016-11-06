@@ -20,7 +20,7 @@ final class ScalarValTest extends RuleTestCase2
     /**
      * {@inheritdoc}
      */
-    public function providerForValidInput()
+    public function providerForValidInput(): array
     {
         $rule = new ScalarVal();
 
@@ -37,7 +37,7 @@ final class ScalarValTest extends RuleTestCase2
     /**
      * {@inheritdoc}
      */
-    public function providerForInvalidInput()
+    public function providerForInvalidInput(): array
     {
         $rule = new ScalarVal();
 

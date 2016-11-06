@@ -18,17 +18,17 @@ abstract class RuleTestCase2 extends \PHPUnit_Framework_TestCase
     /**
      * @return array
      */
-    abstract public function providerForValidInput();
+    abstract public function providerForValidInput(): array;
 
     /**
      * @return array
      */
-    abstract public function providerForInvalidInput();
+    abstract public function providerForInvalidInput(): array;
 
     /**
      * @return array
      */
-    public function providerForAllInput()
+    public function providerForAllInput(): array
     {
         return array_merge(
             $this->providerForValidInput(),

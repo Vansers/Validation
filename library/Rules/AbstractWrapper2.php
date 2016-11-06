@@ -33,7 +33,7 @@ abstract class AbstractWrapper2 extends AbstractRule
      *
      * @return Rule
      */
-    public function getRule()
+    public function getRule(): Rule
     {
         return $this->rule;
     }
