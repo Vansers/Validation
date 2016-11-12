@@ -11,46 +11,66 @@
 
 namespace Respect\Validation\Rules;
 
-use DateTime;
 use DateTimeInterface;
+use Respect\Validation\Result;
+use Respect\Validation\Rule;
+use Respect\Validation\StandardResult;
 
-class Date extends AbstractRule
+/**
+ * @author Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ */
+final class Date implements Rule
 {
-    public $format = null;
+    /**
+     * @var string
+     */
+    private $format;
 
-    public function __construct($format = null)
+    public function __construct(string $format = null)
     {
-        $this->format = $format;
-    }
-
-    public function validate($input)
-    {
-        if ($input instanceof DateTimeInterface
-            || $input instanceof DateTime) {
-            return true;
-        }
-
-        if (!is_scalar($input)) {
-            return false;
-        }
-
-        $inputString = (string) $input;
-
-        if (is_null($this->format)) {
-            return false !== strtotime($inputString);
-        }
-
         $exceptionalFormats = [
             'c' => 'Y-m-d\TH:i:sP',
             'r' => 'D, d M Y H:i:s O',
         ];
 
-        if (in_array($this->format, array_keys($exceptionalFormats))) {
-            $this->format = $exceptionalFormats[$this->format];
+        if (isset($exceptionalFormats[$format])) {
+            $format = $exceptionalFormats[$format];
         }
 
-        $info = date_parse_from_format($this->format, $inputString);
+        $this->format = $format;
+    }
 
-        return $info['error_count'] === 0 && $info['warning_count'] === 0;
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($input): Result
+    {
+        if ($input instanceof DateTimeInterface) {
+            return new StandardResult($this->format === null, $input, $this, array_filter(['format' => $this->format]));
+        }
+
+        $scalarValResult = (new ScalarVal())->validate($input);
+        if (!$scalarValResult->isValid()) {
+            return new StandardResult(false, $input, $this, [], $scalarValResult);
+        }
+
+        if ($this->format === null) {
+            return $this->validateWithoutFormat($input);
+        }
+
+        return $this->validateWithFormat($input, $this->format);
+    }
+
+    private function validateWithoutFormat($input): Result
+    {
+        return new StandardResult(false !== strtotime($input), $input, $this);
+    }
+
+    private function validateWithFormat($input, string $format): Result
+    {
+        $info = date_parse_from_format($format, $input);
+        $isValid = $info['error_count'] === 0 && $info['warning_count'] === 0;
+
+        return new StandardResult($isValid, $input, $this, ['format' => $format]);
     }
 }
