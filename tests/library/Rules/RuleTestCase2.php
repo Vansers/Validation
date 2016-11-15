@@ -11,6 +11,7 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\Result;
 use Respect\Validation\Rule;
 
 abstract class RuleTestCase2 extends \PHPUnit_Framework_TestCase
@@ -34,6 +35,30 @@ abstract class RuleTestCase2 extends \PHPUnit_Framework_TestCase
             $this->providerForValidInput(),
             $this->providerForInvalidInput()
         );
+    }
+
+    public function createRuleMock(bool $isValid, $input): Rule
+    {
+        $ruleMock = $this->createMock(Rule::class);
+
+        $resultMock = $this->createMock(Result::class);
+        $resultMock
+            ->method('isValid')
+            ->will($this->returnValue($isValid));
+
+        $resultMock
+            ->method('getInput')
+            ->will($this->returnValue($input));
+
+        $resultMock
+            ->method('getRule')
+            ->will($this->returnValue($ruleMock));
+
+        $ruleMock
+            ->method('validate')
+            ->will($this->returnValue($resultMock));
+
+        return $ruleMock;
     }
 
     /**

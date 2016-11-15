@@ -11,82 +11,66 @@
 
 namespace Respect\Validation\Rules;
 
-use Respect\Validation\Exceptions\ValidationException;
-use Respect\Validation\Validatable;
+use Respect\Validation\Result;
+use Respect\Validation\Rule;
+use Respect\Validation\StandardResult;
 
-abstract class AbstractRelated extends AbstractRule
+abstract class AbstractRelated implements Rule
 {
-    public $mandatory = true;
-    public $reference = '';
-    public $validator;
+    /**
+     * @var string
+     */
+    private $reference;
 
-    abstract public function hasReference($input);
+    /**
+     * @var Rule|null
+     */
+    private $rule;
 
-    abstract public function getReferenceValue($input);
+    /**
+     * @var bool
+     */
+    private $mandatory = true;
 
-    public function __construct($reference, Validatable $validator = null, $mandatory = true)
+    public function __construct(string $reference, Rule $rule = null, bool $mandatory = true)
     {
-        $this->setName($reference);
-        if ($validator && !$validator->getName()) {
-            $validator->setName($reference);
-        }
-
         $this->reference = $reference;
-        $this->validator = $validator;
+        $this->rule = $rule;
         $this->mandatory = $mandatory;
     }
 
-    public function setName($name)
-    {
-        parent::setName($name);
+    /**
+     * @param string $input
+     *
+     * @return bool
+     */
+    abstract protected function hasReference($input, string $reference): bool;
 
-        if ($this->validator instanceof Validatable) {
-            $this->validator->setName($name);
+    /**
+     * @param string $input
+     *
+     * @return mixed
+     */
+    abstract protected function getReferenceValue($input, string $reference);
+
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($input): Result
+    {
+        $properties = ['reference' => $this->reference, 'mandatory' => $this->mandatory];
+
+        if (!$this->hasReference($input, $this->reference)) {
+            return new StandardResult(!$this->mandatory, $input, $this, $properties);
         }
 
-        return $this;
-    }
-
-    private function decision($type, $hasReference, $input)
-    {
-        return (!$this->mandatory && !$hasReference)
-            || (is_null($this->validator)
-                || $this->validator->$type($this->getReferenceValue($input)));
-    }
-
-    public function assert($input)
-    {
-        $hasReference = $this->hasReference($input);
-        if ($this->mandatory && !$hasReference) {
-            throw $this->reportError($input, ['hasReference' => false]);
+        if ($this->rule === null) {
+            return new StandardResult(true, $input, $this, $properties);
         }
 
-        try {
-            return $this->decision('assert', $hasReference, $input);
-        } catch (ValidationException $e) {
-            throw $this
-                ->reportError($this->reference, ['hasReference' => true])
-                ->addRelated($e);
-        }
-    }
+        $referenceValue = $this->getReferenceValue($input, $this->reference);
+        $referenceValueResult = $this->rule->validate($referenceValue);
 
-    public function check($input)
-    {
-        $hasReference = $this->hasReference($input);
-        if ($this->mandatory && !$hasReference) {
-            throw $this->reportError($input, ['hasReference' => false]);
-        }
-
-        return $this->decision('check', $hasReference, $input);
-    }
-
-    public function validate($input)
-    {
-        $hasReference = $this->hasReference($input);
-        if ($this->mandatory && !$hasReference) {
-            return false;
-        }
-
-        return $this->decision('validate', $hasReference, $input);
+        return new StandardResult($referenceValueResult->isValid(), $input, $this, $properties, $referenceValueResult);
     }
 }
